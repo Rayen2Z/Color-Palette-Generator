@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import Image
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
