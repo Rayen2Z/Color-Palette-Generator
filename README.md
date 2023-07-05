@@ -10,9 +10,16 @@ By deploying the machine learning model on Streamlit, users can easily experimen
 
 This project showcases the integration of machine learning and web development, making it an ideal playground to test and explore the potential of Streamlit in real-world applications.
 
-## Example : 
+## Examples : 
 
 &nbsp;  
 ![téléchargement](https://github.com/Rayen2Z/Color-Palette-Generator/assets/93148057/3bb44840-f3a4-44d7-8aac-7c64d31a3de5)
 &nbsp;  
- 
+
+&nbsp;  
+![output](https://github.com/Rayen2Z/Color-Palette-Generator/assets/93148057/1d858c6a-2502-4388-942d-05ba24355c7c)
+&nbsp; 
+
+&nbsp;  
+![téléchargement (1)](https://github.com/Rayen2Z/Color-Palette-Generator/assets/93148057/da564eed-4c95-4f03-8948-4655bfad9cdb)
+&nbsp;  
