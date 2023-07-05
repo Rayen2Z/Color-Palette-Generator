@@ -10,6 +10,11 @@ By deploying the machine learning model on Streamlit, users can easily experimen
 
 This project showcases the integration of machine learning and web development, making it an ideal playground to test and explore the potential of Streamlit in real-world applications.
 
+## Future Updates
+I am currently working on expanding the capabilities of the color palette generator to accept video inputs. This will allow users to generate color palettes based on the dominant colors in a video, providing a unique and dynamic way to explore color schemes.
+
+In addition, I am also focusing on enhancing the user experience of the Streamlit app. I am exploring different ways to make the interface more intuitive and user-friendly, and am open to feedback and suggestions.
+
 ## Examples : 
 
 &nbsp;  
