@@ -1,5 +1,7 @@
 # 🎨 Color Palette Generator 🎨
-
+&nbsp;  
+![téléchargement](https://github.com/Rayen2Z/Color-Palette-Generator/assets/93148057/3bb44840-f3a4-44d7-8aac-7c64d31a3de5)
+&nbsp;  
 This project implements a simple color palette generator using machine learning techniques and serves as a perfect opportunity to explore and test the capabilities of Streamlit, an interactive web application framework for Python. 
 
 The objective of this project is to leverage Streamlit's features and functionalities to create a user-friendly web interface for generating visually appealing color palettes. 
