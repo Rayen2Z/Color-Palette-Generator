@@ -2,8 +2,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
-
+from skimage.color import rgb2lab, lab2rgb
 
 def read_image(img_path):
     img = Image.open(img_path)
@@ -11,50 +10,31 @@ def read_image(img_path):
     img.thumbnail(max_size, Image.Resampling.LANCZOS)
     return img
 
-
-def get_top_10_colors(img):
+def get_colors(img, n_colors):
     pixels = np.array(img).reshape(-1, 3)
-    scaler = StandardScaler()
-    pixels_scaled = scaler.fit_transform(pixels)
-    kmeans = KMeans(n_clusters=10, init='k-means++', n_init=10, random_state=42)
-    kmeans.fit(pixels_scaled)
-    colors = scaler.inverse_transform(kmeans.cluster_centers_)
+    unique_pixels, counts = np.unique(pixels, return_counts=True, axis=0)
+    n_colors = min(n_colors, len(unique_pixels))
+
+    if n_colors == len(unique_pixels):
+        return unique_pixels
+
+    unique_pixels = rgb2lab(unique_pixels.reshape(1, -1, 3)).reshape(-1, 3)
+    kmeans = KMeans(n_clusters=n_colors, init='k-means++', n_init=10, random_state=42)
+    kmeans.fit(unique_pixels, sample_weight=counts)
+    colors = kmeans.cluster_centers_
+    colors = lab2rgb(colors.reshape(1, -1, 3)).reshape(-1, 3) * 255
     colors = colors.round(0).astype(int)
     return colors
 
-
-def get_top_5_colors(colors):
-    from scipy.spatial.distance import pdist, squareform
-    dist_matrix = squareform(pdist(colors))
-    selected_colors = []
-    for _ in range(5):
-        if not selected_colors:
-            selected_colors.append(np.argmax(np.min(dist_matrix, axis=0)))
-        else:
-            remaining_colors = np.delete(np.arange(10), selected_colors)
-            min_distances = np.min(dist_matrix[np.ix_(remaining_colors, selected_colors)], axis=1)
-            selected_colors.append(remaining_colors[np.argmax(min_distances)])
-    selected_colors = colors[selected_colors]
-    return selected_colors
-
-
-def plot_top_10_colors(colors):
+def plot_colors(colors, title):
     fig, ax = plt.subplots(1, 1, figsize=(5, 2), subplot_kw=dict(xticks=[], yticks=[], frame_on=False))
     for sp in ax.spines.values():
         sp.set_visible(False)
-    plt.imshow([colors.astype(int)], aspect='equal')
+    plt.imshow([colors], aspect='equal')
+    plt.title(title)
     plt.show()
 
-
-def plot_top_5_colours(selected_colors):
-    fig, ax = plt.subplots(1, 1, figsize=(5, 2), subplot_kw=dict(xticks=[], yticks=[], frame_on=False))
-    for sp in ax.spines.values():
-        sp.set_visible(False)
-    plt.imshow([selected_colors.astype(int)], aspect='auto')
-    plt.show()
-
-
-def plot_img_plus_color_palette(img, selected_colors):
+def plot_img_plus_color_palette(img, colors):
     fig = plt.figure(figsize=(10, 10), dpi=80)
     grid = plt.GridSpec(5, 1, hspace=0)
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
@@ -62,6 +42,7 @@ def plot_img_plus_color_palette(img, selected_colors):
     axs0.imshow(img, aspect='equal')
     axs0.axis('off')
     axs1 = fig.add_subplot(grid[4, :])
-    axs1.imshow([selected_colors.astype(int)], aspect='auto')
+    axs1.imshow([colors], aspect='auto')
     axs1.axis('off')
-    return fig
+    return fig, (axs0, axs1)
+
